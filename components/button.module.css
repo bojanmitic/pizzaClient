@@ -1,0 +1,42 @@
+.root {
+  border: 0;
+  padding: 0;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  margin-top: 1em;
+}
+
+.wrapper {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  background-color: black;
+}
+
+.spinner {
+  position: absolute;
+  align-self: center;
+  mix-blend-mode: difference;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.icon {
+  position: absolute;
+  left: 1em;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.label {
+  flex-grow: 1;
+  align-self: center;
+  padding: 0.2em 0.8em;
+  text-transform: uppercase;
+  font-size: inherit;
+  color: white;
+  font-weight: 500;
+  outline: 0;
+}

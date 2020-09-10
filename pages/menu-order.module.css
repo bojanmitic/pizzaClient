@@ -1,0 +1,56 @@
+.dishesSection {
+  padding: 1rem;
+  text-align: center;
+  scroll-behavior: smooth;
+}
+
+.dishHeading {
+  margin-bottom: 3rem;
+  font-size: 2.2rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+}
+
+.meals {
+  margin-bottom: 3rem;
+}
+
+.dishesNavBar {
+  position: sticky;
+  top: -1px;
+  background-color: white;
+  z-index: 2;
+}
+
+.dishesNav {
+  flex-wrap: wrap;
+}
+
+.dishesNavLink {
+  font-size: 1.2rem;
+}
+
+.scrollLink {
+  cursor: pointer;
+}
+
+.cartHeading {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0;
+  margin-top: 8px;
+}
+
+.resAddress {
+  font-size: 0.8rem;
+}
+
+.accountButton {
+  color: black;
+}
+
+.accountButton:hover {
+  text-decoration: none;
+  color: black;
+}

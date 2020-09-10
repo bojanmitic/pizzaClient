@@ -1,0 +1,33 @@
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+}
+
+.mainWrapper h5 {
+  margin: 1rem 0;
+  word-break: break-all;
+  color: #333333;
+}
+
+.mainWrapper p {
+  margin-bottom: 0;
+}
+
+.image {
+  content: '';
+  position: relative;
+  display: block;
+  width: 100%;
+  padding-bottom: 70%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.price {
+  color: red;
+  font-weight: 100;
+  font-size: 2rem;
+}

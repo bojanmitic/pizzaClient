@@ -1,0 +1,8 @@
+.image {
+  height: 80vh;
+  max-height: 500px;
+  background-image: url('../public/images/pizza-image.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}

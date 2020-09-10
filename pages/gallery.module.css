@@ -1,0 +1,14 @@
+.imageDiv {
+  content: '';
+  width: 100%;
+  padding-bottom: 75%;
+  margin-bottom: 2rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
