@@ -12,7 +12,6 @@ type Props = {
 
 const Layout = ({ children, title = 'Pizza App' }: Props) => {
   const [key, setKey] = useState('/');
-  console.log(key);
   return (
     <div>
       <Head>

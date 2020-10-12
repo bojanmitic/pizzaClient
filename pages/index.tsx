@@ -2,6 +2,7 @@ import { Col, Row } from 'react-bootstrap';
 import Layout from '../components/Layout';
 import utilStyles from '../styles/utils.module.css';
 import styles from './index.module.css';
+import axios from 'axios';
 
 const IndexPage = () => (
   <Layout title="Home">
@@ -23,5 +24,30 @@ const IndexPage = () => (
     </Row>
   </Layout>
 );
+
+IndexPage.getInitialProps = async ({ req }: { req: any }) => {
+  console.log('From index page', req);
+  if (typeof window === 'undefined') {
+    // we are on the server!
+    // requests should be made to http://ingress-nginx.ingress-nginx...laksdjfk
+    const { data } = await axios.get(
+      'http://localhost:5000/api/users/current-user',
+      {
+        headers: req.headers,
+      }
+    );
+
+    return data;
+  } else {
+    // we are on the browser!
+    // requests can be made with a base url of ''
+    const { data } = await axios.get(
+      'http://localhost:5000/api/users/current-user'
+    );
+
+    return data;
+  }
+  return {};
+};
 
 export default IndexPage;

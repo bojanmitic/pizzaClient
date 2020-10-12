@@ -31,3 +31,10 @@
 .alignCenter {
   text-align: center;
 }
+
+.stickyTop {
+  position: sticky;
+  top: -1px;
+  background-color: white;
+  z-index: 2;
+}

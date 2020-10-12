@@ -15,6 +15,7 @@ interface IButtonProps {
   //Button component props
   pending?: boolean;
   icon?: React.ReactElement;
+  spinnerColor?: string;
 
   //common component props
   children: React.ReactNode;
@@ -30,6 +31,7 @@ const Button = (props: IButtonProps) => {
     type = 'button',
     children,
     icon,
+    spinnerColor = 'dark',
   } = props;
   const [pendingFromState, setPendingFromState] = useState(false);
 
@@ -62,7 +64,13 @@ const Button = (props: IButtonProps) => {
   return (
     <button {...rootProps} onClick={handleClick}>
       <span className={styles.wrapper}>
-        {pending && <Spinner className={styles.spinner} animation="border" />}
+        {pending && (
+          <Spinner
+            className={styles.spinner}
+            animation="border"
+            variant={spinnerColor}
+          />
+        )}
         {icon && <span className={styles.icon}>{icon}</span>}
         {children && <span className={styles.label}>{children}</span>}
       </span>

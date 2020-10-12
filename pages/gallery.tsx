@@ -7,7 +7,7 @@ import { fetcher } from '../api/fetcher';
 import { Col, Row, Container, Spinner } from 'react-bootstrap';
 import ImagesModal from '../components/ImagesModal';
 
-const imagesUrl = 'https://localhost:5000/api/images';
+const imagesUrl = 'http://localhost:5000/api/images';
 
 export interface IImage {
   id: number;

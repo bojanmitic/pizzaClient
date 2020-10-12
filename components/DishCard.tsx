@@ -1,17 +1,24 @@
 import React from 'react';
 import Button from './Button';
 import styles from './dish-card.module.css';
+import { IProduct } from './Cart';
 
-interface IProps {
-  imageUrl: 'string';
-  name: 'string';
-  description: 'string';
+export interface IProductProps {
+  imageUrl: string;
+  name: string;
+  description: string;
   price: number;
   id: number;
+  addProduct: (product: IProduct) => void;
 }
 
-const DishCard = (props: IProps) => {
-  const { imageUrl, name, description, price, id } = props;
+const DishCard = (props: IProductProps) => {
+  const { imageUrl, name, description, price, id, addProduct } = props;
+  const product = {
+    name,
+    price,
+    id,
+  };
   return (
     <div className={styles.mainWrapper}>
       <div
@@ -21,7 +28,7 @@ const DishCard = (props: IProps) => {
       <h5>{name}</h5>
       <p>{description}</p>
       <div className={styles.price}>{price}$</div>
-      <Button>Order Now</Button>
+      <Button onClick={() => addProduct(product)}>Order Now</Button>
     </div>
   );
 };

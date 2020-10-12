@@ -16,16 +16,14 @@ export default function App({
   pageProps,
   currentUser,
 }: AppComponentProps) {
-  console.log(currentUser);
   return <Component {...pageProps} currentUser={currentUser} />;
 }
 
-const currentUserApi = 'https://localhost:5000/api/users/current-user';
+const currentUserApi = 'http://localhost:5000/api/users/current-user';
 
+//TO DO: define appContext
 App.getInitialProps = async (appContext: any) => {
-  const userRes = await fetcher(currentUserApi);
-  const currentUser = await userRes.json();
-
+  const currentUser = await fetcher(currentUserApi);
   let pageProps = {};
   if (appContext.Component.getInitialProps) {
     pageProps = await appContext.Component.getInitialProps(

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal, Form, Col } from 'react-bootstrap';
+import { signIn } from '../api/actions';
+
+import { Modal, Form } from 'react-bootstrap';
 import Button from './Button';
+import ShowErrors from './ShowErrors';
 
 interface IModalProps {
   onHide: () => void;
@@ -9,12 +12,22 @@ interface IModalProps {
 }
 
 const SignInModal = (props: IModalProps) => {
+  const [submitting, setSubmitting] = useState(false);
+  const [resErr, setResErr] = useState([]);
   const { register, handleSubmit, errors } = useForm({
     mode: 'onSubmit',
   });
-  const onSubmit = (data: any) => {
-    console.log(data);
-    onHide();
+  const onSubmit = async (data: any) => {
+    setResErr([]);
+    setSubmitting(true);
+    try {
+      const user = await signIn(data);
+      console.log(user);
+      onHide();
+    } catch (error) {
+      setResErr(error.response.data.errors);
+    }
+    setSubmitting(false);
   };
   const { onHide } = props;
   return (
@@ -38,7 +51,11 @@ const SignInModal = (props: IModalProps) => {
                 required: 'Required',
                 minLength: 4,
               })}
+              isInvalid={!!errors.email}
             />
+            <Form.Control.Feedback type={'invalid'}>
+              Email is required.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="password">
@@ -60,10 +77,17 @@ const SignInModal = (props: IModalProps) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleSubmit(onSubmit)} type="submit">
+        <Button
+          pending={!!submitting}
+          disabled={!!submitting}
+          spinnerColor="light"
+          onClick={handleSubmit(onSubmit)}
+          type="submit"
+        >
           Confirm
         </Button>
       </Modal.Footer>
+      {resErr && <ShowErrors errors={resErr} />}
     </Modal>
   );
 };

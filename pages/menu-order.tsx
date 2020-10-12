@@ -18,9 +18,13 @@ import styles from './menu-order.module.css';
 import utilStyles from '../styles/utils.module.css';
 import DeliveryModal from './../components/DeliveryModal';
 import SignInModal from './../components/SignInModal';
-import { currentUser } from '../../server/src/middlewares/curentUser';
+import { Cart } from '../components/Cart';
+import { IProduct } from '../components/Cart';
+import CartComponent from './../components/CartComponent';
+import { CartItem } from './../models/CartItem';
+import { ICart } from '../components/CartComponent';
 
-const mealsUrl = 'https://localhost:5000/api/meals';
+const mealsUrl = 'http://localhost:5000/api/meals';
 
 interface MealSection {
   id: string;
@@ -36,13 +40,28 @@ interface IMeal {
   id: number;
 }
 
-const MenuOrder = (props) => {
-  console.log('props from menu order', props);
+interface IItems {
+  [id: number]: {
+    price: number;
+    name: string;
+    quantity: number;
+    sum: number;
+  };
+}
+
+interface ICart {
+  items: IItems;
+  totalAmount: number;
+}
+
+const MenuOrder = () => {
   const { data, error } = useSWR(mealsUrl, fetcher);
+
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
-
   const [delivery, setDelivery] = useState('pickUp');
+  const [cart, setCart] = useState<ICart>({ items: {}, totalAmount: 0 });
+  // const [cart, setCart] = useState(new Cart());
 
   let status;
 
@@ -64,13 +83,45 @@ const MenuOrder = (props) => {
     setShowSignInModal(!showSignInModal);
   };
 
+  const handleAddProduct = (product: IProduct) => {
+    const prodPrice = product.price;
+    const prodName = product.name;
+
+    let updatedOrNewCartItem;
+    let totalAmount;
+
+    if (cart.items[product.id]) {
+      updatedOrNewCartItem = new CartItem(
+        cart.items[product.id].quantity + 1,
+        prodPrice,
+        prodName,
+        cart.items[product.id].sum + prodPrice
+      );
+      totalAmount = Number((cart.totalAmount + prodPrice).toFixed(2));
+      // setCart({items:{[cart.items[product.id]: updatedOrNewCartItem}, totalAmount})
+    } else {
+      updatedOrNewCartItem = new CartItem(1, prodPrice, prodName, prodPrice);
+      totalAmount = Number((cart.totalAmount + prodPrice).toFixed(2));
+      cart.items[product.id] = updatedOrNewCartItem;
+      setCart({ items: { 1: updatedOrNewCartItem }, totalAmount });
+    }
+
+    // cart.addItem(product);
+    // console.log(cart);
+  };
+
+  const handleRemoveProduct = (id: number) => {
+    // cart.removeItem(id);
+    console.log(cart);
+  };
+
   return (
     <Layout title="Menu/Order">
       <Container className={utilStyles.mtmd}>
         <Row>
           {status}
           <Col md="9">
-            <Navbar className={styles.dishesNavBar}>
+            <Navbar className={utilStyles.stickyTop}>
               <Nav className={styles.dishesNav}>
                 {data &&
                   data.map((mealSection: MealSection) => (
@@ -109,6 +160,7 @@ const MenuOrder = (props) => {
                             description={meal.description}
                             price={meal.price}
                             key={meal.id}
+                            addProduct={handleAddProduct}
                           />
                         </Col>
                       ))}
@@ -146,6 +198,15 @@ const MenuOrder = (props) => {
                   <option value="delivery">Home Delivery</option>
                 </Form.Control>
               </Form.Group>
+            </Row>
+            <Row className={`${utilStyles.stickyTop} ${utilStyles.mts}`}>
+              <Col>
+                <CartComponent
+                  cart={cart}
+                  // addProduct={handleAddProduct}
+                  // removeProduct={handleRemoveProduct}
+                />
+              </Col>
             </Row>
           </Col>
         </Row>
